@@ -10,9 +10,8 @@ export function CardCountrys({ countrys }: Props) {
       {countrys.slice(0, 10).map((country) => (
         <li key={country.cca2}>
           <div>
-            <img src={country.flags.svg} />
+            <img src={country.flags.svg} alt={country.name.official} />
           </div>
-
           <div className="card-text">
             <h2>{country.name.common}</h2>
             <p>Population: {country.population.toLocaleString()} </p>
