@@ -1,0 +1,9 @@
+form {
+  max-width: 200px;
+  display: flex;
+  border: solid 1px black;
+}
+
+form input {
+  border: none;
+}

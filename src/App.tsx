@@ -1,9 +1,10 @@
-import { type Countrys } from "./types/types.d";
+import { type Countrys, Region } from "./types/types.d";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { NavBar } from "./components/navBar";
 import { CardCountrys } from "./components/cardCountrys";
-import { Search } from "lucide-react";
+import { InputSearch } from "./components/inputSearch";
+import { Dropdown } from "./components/dropdown";
 
 function App() {
   const [countrys, setCountrys] = useState<Countrys[]>([]);
@@ -19,23 +20,24 @@ function App() {
     setSearch(e.target.value);
   };
 
-  const filteredCountry = search
-    ? countrys.filter((country) =>
-        country.name.common.toLocaleLowerCase().includes(search)
-      )
-    : countrys;
+  const filterCountry = (countrys: Countrys[], search: string): Countrys[] => {
+    return search
+      ? countrys.filter((country) =>
+          country.name.common
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase())
+        )
+      : countrys;
+  };
+
+  const filteredCountry = filterCountry(countrys, search);
+
+  const regions = Object.values(Region);
   return (
     <>
       <NavBar />
-      <form>
-        <Search />
-        <input
-          type="text"
-          value={search}
-          placeholder="Search for a country..."
-          onChange={handleSearch}
-        />
-      </form>
+      <InputSearch search={search} handleSearch={handleSearch} />
+      <Dropdown region={regions} />
       <main>
         <CardCountrys countrys={filteredCountry} />
       </main>
