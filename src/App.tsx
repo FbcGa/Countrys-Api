@@ -1,4 +1,4 @@
-import { type Countrys, Region } from "./types/types.d";
+import { Region, type Countrys } from "./types/types.d";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { NavBar } from "./components/navBar";
@@ -6,10 +6,16 @@ import { CardCountrys } from "./components/cardCountrys";
 import { InputSearch } from "./components/inputSearch";
 import { Dropdown } from "./components/dropdown";
 
+export interface Filters {
+  search: string;
+  selectRegion: Region | string;
+}
 function App() {
   const [countrys, setCountrys] = useState<Countrys[]>([]);
-  const [search, setSearch] = useState<string>("");
-
+  const [filters, setfilters] = useState<Filters>({
+    search: "",
+    selectRegion: "",
+  });
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all")
       .then((resp) => resp.json())
@@ -17,7 +23,12 @@ function App() {
   }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+    setfilters({ ...filters, search: e.target.value });
+  };
+
+  const toggleRegion = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setfilters({ ...filters, selectRegion: e.target.value });
+    console.log(filters.selectRegion);
   };
 
   const filterCountry = (countrys: Countrys[], search: string): Countrys[] => {
@@ -30,16 +41,30 @@ function App() {
       : countrys;
   };
 
-  const filteredCountry = filterCountry(countrys, search);
+  const filterByRegion = (
+    countrys: Countrys[],
+    selectRegion: Region | string
+  ): Countrys[] => {
+    return selectRegion
+      ? countrys.filter((country) => country.region === selectRegion)
+      : countrys;
+  };
 
-  const regions = Object.values(Region);
+  const filteredCountrys = filterByRegion(
+    filterCountry(countrys, filters.search),
+    filters.selectRegion
+  );
+
   return (
     <>
       <NavBar />
-      <InputSearch search={search} handleSearch={handleSearch} />
-      <Dropdown region={regions} />
+      <InputSearch search={filters.search} handleSearch={handleSearch} />
+      <Dropdown
+        selectRegion={filters.selectRegion}
+        toggleRegion={toggleRegion}
+      />
       <main>
-        <CardCountrys countrys={filteredCountry} />
+        <CardCountrys countrys={filteredCountrys} />
       </main>
     </>
   );
