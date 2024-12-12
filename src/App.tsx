@@ -6,10 +6,16 @@ import { CardCountrys } from "./components/cardCountrys";
 import { InputSearch } from "./components/inputSearch";
 import { Dropdown } from "./components/dropdown";
 
+export interface Filters {
+  search: string;
+  region: Region[];
+}
 function App() {
   const [countrys, setCountrys] = useState<Countrys[]>([]);
-  const [search, setSearch] = useState<string>("");
-
+  const [filters, setfilters] = useState<Filters>({
+    search: "",
+    region: Object.values(Region),
+  });
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all")
       .then((resp) => resp.json())
@@ -17,7 +23,7 @@ function App() {
   }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+    setfilters({ ...filters, search: e.target.value });
   };
 
   const filterCountry = (countrys: Countrys[], search: string): Countrys[] => {
@@ -30,14 +36,13 @@ function App() {
       : countrys;
   };
 
-  const filteredCountry = filterCountry(countrys, search);
-
-  const regions = Object.values(Region);
+  const filteredCountry = filterCountry(countrys, filters.search);
+  console.log(filters.region);
   return (
     <>
       <NavBar />
-      <InputSearch search={search} handleSearch={handleSearch} />
-      <Dropdown region={regions} />
+      <InputSearch search={filters.search} handleSearch={handleSearch} />
+      <Dropdown region={filters.region} />
       <main>
         <CardCountrys countrys={filteredCountry} />
       </main>
