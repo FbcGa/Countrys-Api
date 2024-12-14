@@ -2,26 +2,27 @@ import ReactPaginate from "react-paginate";
 
 interface PaginationProps {
   pageCount: number;
-  onPageChange: ({ selected }: { selected: number }) => void;
+  onPageChange: (selectedItem: { selected: number }) => void;
+  currentPage: number;
 }
 
-export function Pagination({ pageCount, onPageChange }: PaginationProps) {
+export function Pagination({
+  pageCount,
+  onPageChange,
+  currentPage,
+}: PaginationProps) {
+  const validCurrentPage = currentPage >= pageCount ? 0 : currentPage;
   return (
     <ReactPaginate
       previousLabel={"Previous"}
       nextLabel={"Next"}
-      breakLabel={"..."}
       pageCount={pageCount}
-      marginPagesDisplayed={2}
-      pageRangeDisplayed={3}
       onPageChange={onPageChange}
-      containerClassName="flex justify-center mt-5 space-x-2"
-      pageClassName="cursor-pointer bg-gray-200 text-gray-800 rounded-md px-3 py-1 hover:bg-gray-300"
-      pageLinkClassName="block"
-      previousClassName="cursor-pointer bg-blue-500 text-white rounded-md px-3 py-1 hover:bg-blue-600"
-      nextClassName="cursor-pointer bg-blue-500 text-white rounded-md px-3 py-1 hover:bg-blue-600"
-      breakClassName="cursor-pointer bg-gray-200 text-gray-800 rounded-md px-3 py-1"
+      containerClassName="flex justify-center space-x-2 my-4"
+      pageClassName="px-3 py-1 border rounded cursor-pointer hover:bg-gray-200"
       activeClassName="bg-blue-500 text-white"
+      disabledClassName="opacity-50 cursor-not-allowed"
+      forcePage={validCurrentPage}
     />
   );
 }

@@ -1,29 +1,26 @@
-import { Region, type Countrys } from "./types/types.d";
-import "./App.css";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { CardCountrys } from "./components/cardCountrys";
 import { InputSearch } from "./components/inputSearch";
 import { Dropdown } from "./components/dropdown";
-import { FiltersContext } from "./context/filter";
+import { Pagination } from "./components/pagination";
 import { useCountrys } from "./hooks/useCountrys";
 import { usePagination } from "./hooks/usePagination";
-import { Pagination } from "./components/pagination";
-
-export interface Filters {
-  search: string;
-  selectRegion: Region | string;
-}
+import { FiltersContext } from "./context/filter";
+import { Countrys } from "./types/types";
 
 function App() {
   const countrys = useCountrys();
   const { filters, setFilters } = useContext(FiltersContext);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilters({ ...filters, search: e.target.value });
+    setCurrentPage(0);
   };
 
   const toggleRegion = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilters({ ...filters, selectRegion: e.target.value });
+    setCurrentPage(0);
   };
 
   const filterByCountry = (
@@ -41,7 +38,7 @@ function App() {
 
   const filterByRegion = (
     countrys: Countrys[],
-    selectRegion: Region | string
+    selectRegion: string
   ): Countrys[] => {
     return selectRegion
       ? countrys.filter((country) => country.region === selectRegion)
@@ -53,10 +50,11 @@ function App() {
     filters.selectRegion
   );
 
-  // Usar el hook de paginación
   const { currentItems, pageCount, handlePageClick } = usePagination({
     items: filteredCountrys,
     itemsPerPage: 10,
+    currentPage,
+    onPageChange: setCurrentPage,
   });
 
   return (
@@ -69,7 +67,11 @@ function App() {
         <CardCountrys countrys={currentItems} />
       </main>
       <footer>
-        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
+        <Pagination
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          currentPage={currentPage}
+        />
       </footer>
     </>
   );
