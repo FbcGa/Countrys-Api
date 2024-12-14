@@ -1,7 +1,6 @@
 import { Region, type Countrys } from "./types/types.d";
 import "./App.css";
 import { useContext, useEffect, useState } from "react";
-import { NavBar } from "./components/navBar";
 import { CardCountrys } from "./components/cardCountrys";
 import { InputSearch } from "./components/inputSearch";
 import { Dropdown } from "./components/dropdown";
@@ -56,9 +55,11 @@ function App() {
 
   return (
     <>
-      <NavBar />
-      <InputSearch handleSearch={handleSearch} />
-      <Dropdown toggleRegion={toggleRegion} />
+      <div className="m-5 flex justify-between items-center">
+        <InputSearch handleSearch={handleSearch} />
+        <Dropdown toggleRegion={toggleRegion} />
+      </div>
+
       <main>
         <CardCountrys countrys={filteredCountrys} />
       </main>
