@@ -1,21 +1,34 @@
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useState } from "react";
 import { Region } from "../types/types.d";
 
 interface Props {
-  children: ReactNode; // Cambia JSX.Element a ReactNode
+  children: ReactNode;
+}
+
+interface Filters {
+  search: string;
+  selectRegion: Region | string;
 }
 
 export const FiltersContext = createContext<{
-  search: string;
-  region: Region[]; // Define el tipo de la propiedad region
-}>();
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+}>({
+  filters: { search: "", selectRegion: "" },
+  setFilters: () => {},
+});
 
-export function FilterProvider({ children }: Props) {
+export function FiltersProvider({ children }: Props) {
+  const [filters, setFilters] = useState<Filters>({
+    search: "",
+    selectRegion: "",
+  });
+
   return (
     <FiltersContext.Provider
       value={{
-        search: "",
-        region: Object.values(Region),
+        filters,
+        setFilters,
       }}
     >
       {children}

@@ -1,10 +1,11 @@
 import { Region, type Countrys } from "./types/types.d";
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavBar } from "./components/navBar";
 import { CardCountrys } from "./components/cardCountrys";
 import { InputSearch } from "./components/inputSearch";
 import { Dropdown } from "./components/dropdown";
+import { FiltersContext } from "./context/filter";
 
 export interface Filters {
   search: string;
@@ -12,10 +13,8 @@ export interface Filters {
 }
 function App() {
   const [countrys, setCountrys] = useState<Countrys[]>([]);
-  const [filters, setfilters] = useState<Filters>({
-    search: "",
-    selectRegion: "",
-  });
+  const { filters, setFilters } = useContext(FiltersContext);
+
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all")
       .then((resp) => resp.json())
@@ -23,11 +22,11 @@ function App() {
   }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setfilters({ ...filters, search: e.target.value });
+    setFilters({ ...filters, search: e.target.value });
   };
 
   const toggleRegion = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setfilters({ ...filters, selectRegion: e.target.value });
+    setFilters({ ...filters, selectRegion: e.target.value });
     console.log(filters.selectRegion);
   };
 
@@ -58,11 +57,8 @@ function App() {
   return (
     <>
       <NavBar />
-      <InputSearch search={filters.search} handleSearch={handleSearch} />
-      <Dropdown
-        selectRegion={filters.selectRegion}
-        toggleRegion={toggleRegion}
-      />
+      <InputSearch handleSearch={handleSearch} />
+      <Dropdown toggleRegion={toggleRegion} />
       <main>
         <CardCountrys countrys={filteredCountrys} />
       </main>
