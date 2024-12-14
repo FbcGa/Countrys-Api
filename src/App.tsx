@@ -1,27 +1,26 @@
-import { Region, type Countrys } from "./types/types.d";
-import "./App.css";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { CardCountrys } from "./components/cardCountrys";
 import { InputSearch } from "./components/inputSearch";
 import { Dropdown } from "./components/dropdown";
-import { FiltersContext } from "./context/filter";
+import { Pagination } from "./components/pagination";
 import { useCountrys } from "./hooks/useCountrys";
+import { usePagination } from "./hooks/usePagination";
+import { FiltersContext } from "./context/filter";
+import { Countrys } from "./types/types";
 
-export interface Filters {
-  search: string;
-  selectRegion: Region | string;
-}
 function App() {
   const countrys = useCountrys();
   const { filters, setFilters } = useContext(FiltersContext);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilters({ ...filters, search: e.target.value });
+    setCurrentPage(0);
   };
 
   const toggleRegion = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilters({ ...filters, selectRegion: e.target.value });
-    console.log(filters.selectRegion);
+    setCurrentPage(0);
   };
 
   const filterByCountry = (
@@ -39,7 +38,7 @@ function App() {
 
   const filterByRegion = (
     countrys: Countrys[],
-    selectRegion: Region | string
+    selectRegion: string
   ): Countrys[] => {
     return selectRegion
       ? countrys.filter((country) => country.region === selectRegion)
@@ -51,16 +50,29 @@ function App() {
     filters.selectRegion
   );
 
+  const { currentItems, pageCount, handlePageClick } = usePagination({
+    items: filteredCountrys,
+    itemsPerPage: 10,
+    currentPage,
+    onPageChange: setCurrentPage,
+  });
+
   return (
     <>
-      <div className="m-5 flex justify-between items-center">
+      <header className="m-5 flex justify-between items-center">
         <InputSearch handleSearch={handleSearch} />
         <Dropdown toggleRegion={toggleRegion} />
-      </div>
-
+      </header>
       <main>
-        <CardCountrys countrys={filteredCountrys} />
+        <CardCountrys countrys={currentItems} />
       </main>
+      <footer>
+        <Pagination
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          currentPage={currentPage}
+        />
+      </footer>
     </>
   );
 }
