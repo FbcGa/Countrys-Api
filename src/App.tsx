@@ -1,24 +1,19 @@
 import { Region, type Countrys } from "./types/types.d";
 import "./App.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { CardCountrys } from "./components/cardCountrys";
 import { InputSearch } from "./components/inputSearch";
 import { Dropdown } from "./components/dropdown";
 import { FiltersContext } from "./context/filter";
+import { useCountrys } from "./hooks/useCountrys";
 
 export interface Filters {
   search: string;
   selectRegion: Region | string;
 }
 function App() {
-  const [countrys, setCountrys] = useState<Countrys[]>([]);
+  const countrys = useCountrys();
   const { filters, setFilters } = useContext(FiltersContext);
-
-  useEffect(() => {
-    fetch("https://restcountries.com/v3.1/all")
-      .then((resp) => resp.json())
-      .then((data) => setCountrys(data));
-  }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilters({ ...filters, search: e.target.value });
@@ -29,7 +24,10 @@ function App() {
     console.log(filters.selectRegion);
   };
 
-  const filterCountry = (countrys: Countrys[], search: string): Countrys[] => {
+  const filterByCountry = (
+    countrys: Countrys[],
+    search: string
+  ): Countrys[] => {
     return search
       ? countrys.filter((country) =>
           country.name.common
@@ -49,7 +47,7 @@ function App() {
   };
 
   const filteredCountrys = filterByRegion(
-    filterCountry(countrys, filters.search),
+    filterByCountry(countrys, filters.search),
     filters.selectRegion
   );
 
