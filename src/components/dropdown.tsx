@@ -15,9 +15,11 @@ export function Dropdown({ toggleRegion }: Props) {
       <select
         name={filters.selectRegion}
         onChange={toggleRegion}
-        className="block w-full px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+        className="block w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-md text-base font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 hover:cursor-pointer"
       >
-        <option value="">Filter by region</option>
+        <option value="" className="text-gray-500 italic">
+          Filter by region
+        </option>
         {Object.entries(region).map(([key, value]) => (
           <option key={key} value={value}>
             {value}

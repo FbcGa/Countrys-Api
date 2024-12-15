@@ -59,7 +59,7 @@ function App() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <header className="m-5 flex justify-between items-center">
+      <header className="m-7 flex justify-between items-center">
         <InputSearch handleSearch={handleSearch} />
         <Dropdown toggleRegion={toggleRegion} />
       </header>
