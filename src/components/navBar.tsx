@@ -11,7 +11,7 @@ export function NavBar() {
 
   return (
     <nav className="flex justify-between items-center mx-auto p-5 bg-white dark:bg-black">
-      <h1 className="text-3xl font-bold dark:text-white">
+      <h1 className="text-3xl font-bold text-wrap dark:text-white">
         Where in the world?
       </h1>
       <button
