@@ -58,15 +58,15 @@ function App() {
   });
 
   return (
-    <div className="max-w-5xl mx-auto grid min-h-dvh grid-rows-[auto_1fr_auto]">
-      <header className="my-7 flex justify-between items-center">
+    <div className="max-w-5xl mx-auto grid min-h-dvh grid-rows-[auto_1fr_auto] px-6 lg:px-0">
+      <header className="my-7 flex flex-col space-y-4 items-stretch sm:flex-row sm:justify-between sm:items-center sm:space-y-0">
         <InputSearch handleSearch={handleSearch} />
         <Dropdown toggleRegion={toggleRegion} />
       </header>
       <main>
         <CardCountrys countrys={currentItems} />
       </main>
-      <footer className="m-5">
+      <footer className="m-5 flex justify-center">
         <Pagination
           pageCount={pageCount}
           onPageChange={handlePageClick}

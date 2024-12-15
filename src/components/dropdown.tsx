@@ -11,7 +11,7 @@ export function Dropdown({ toggleRegion }: Props) {
   const { filters } = useContext(FiltersContext);
 
   return (
-    <div className="w-full max-w-xs">
+    <div className="w-full max-w-full sm:max-w-xs">
       <select
         name={filters.selectRegion}
         onChange={toggleRegion}
