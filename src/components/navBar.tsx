@@ -19,17 +19,16 @@ export function NavBar() {
         className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full border border-gray-300 dark:border-gray-700 shadow transition-all duration-300 hover:shadow-md"
         title="Switch theme"
       >
-        {/* Icono de luna visible en pantallas pequeñas si está en modo oscuro */}
         <Moon
           className={`w-5 h-5 transition-opacity duration-300 ${
-            isDarkMode ? "opacity-100 text-blue-500" : "opacity-0"
+            isDarkMode ? "opacity-100 text-blue-500" : "opacity-0 text-gray-500"
           }`}
         />
-
-        {/* Icono de sol visible en pantallas pequeñas si está en modo claro */}
         <Sun
           className={`w-5 h-5 transition-opacity duration-300 ${
-            isDarkMode ? "opacity-0" : "opacity-100 text-yellow-400"
+            isDarkMode
+              ? "opacity-0 text-gray-500"
+              : "opacity-100 text-yellow-400"
           }`}
         />
       </button>
