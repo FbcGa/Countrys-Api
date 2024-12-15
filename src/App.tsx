@@ -52,21 +52,21 @@ function App() {
 
   const { currentItems, pageCount, handlePageClick } = usePagination({
     items: filteredCountrys,
-    itemsPerPage: 10,
+    itemsPerPage: 12,
     currentPage,
     onPageChange: setCurrentPage,
   });
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <header className="m-7 flex justify-between items-center">
+    <div className="max-w-5xl mx-auto grid min-h-dvh grid-rows-[auto_1fr_auto]">
+      <header className="my-7 flex justify-between items-center">
         <InputSearch handleSearch={handleSearch} />
         <Dropdown toggleRegion={toggleRegion} />
       </header>
       <main>
         <CardCountrys countrys={currentItems} />
       </main>
-      <footer>
+      <footer className="m-5">
         <Pagination
           pageCount={pageCount}
           onPageChange={handlePageClick}
