@@ -10,7 +10,7 @@ export function CardCountrys({ countrys }: Props) {
       {countrys.map((country) => (
         <li
           key={country.cca2}
-          className="flex flex-col bg-gray-100 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105"
+          className="flex flex-col bg-gray-100 dark:bg-gray-600 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105"
         >
           <div className="relative">
             <img
@@ -20,24 +20,24 @@ export function CardCountrys({ countrys }: Props) {
             />
           </div>
           <div className="text-left p-4">
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
               {country.name.common}
             </h2>
-            <p className="text-sm text-gray-600 mb-1">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">
               Population:{" "}
-              <span className="font-medium text-gray-800">
+              <span className="font-medium text-gray-800 dark:text-gray-100">
                 {country.population.toLocaleString()}
               </span>
             </p>
-            <p className="text-sm text-gray-600 mb-1">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">
               Region:{" "}
-              <span className="font-medium text-gray-800">
+              <span className="font-medium text-gray-800 dark:text-gray-100">
                 {country.region}
               </span>
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               Capital:{" "}
-              <span className="font-medium text-gray-800">
+              <span className="font-medium text-gray-800 dark:text-gray-100">
                 {country.capital}
               </span>
             </p>

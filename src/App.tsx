@@ -5,13 +5,15 @@ import { Dropdown } from "./components/dropdown";
 import { Pagination } from "./components/pagination";
 import { useCountrys } from "./hooks/useCountrys";
 import { usePagination } from "./hooks/usePagination";
+import { useFilteredCountrys } from "./hooks/useFilteredCountrys";
 import { FiltersContext } from "./context/filter";
-import { Countrys } from "./types/types";
+import { CardsSkeleton } from "./components/cardsSkeleton";
 
 function App() {
-  const countrys = useCountrys();
   const { filters, setFilters } = useContext(FiltersContext);
+  const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState(0);
+  const countrys = useCountrys({ setLoading });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilters({ ...filters, search: e.target.value });
@@ -23,50 +25,30 @@ function App() {
     setCurrentPage(0);
   };
 
-  const filterByCountry = (
-    countrys: Countrys[],
-    search: string
-  ): Countrys[] => {
-    return search
-      ? countrys.filter((country) =>
-          country.name.common
-            .toLocaleLowerCase()
-            .includes(search.toLocaleLowerCase())
-        )
-      : countrys;
-  };
-
-  const filterByRegion = (
-    countrys: Countrys[],
-    selectRegion: string
-  ): Countrys[] => {
-    return selectRegion
-      ? countrys.filter((country) => country.region === selectRegion)
-      : countrys;
-  };
-
-  const filteredCountrys = filterByRegion(
-    filterByCountry(countrys, filters.search),
-    filters.selectRegion
-  );
+  const filteredCountrys = useFilteredCountrys({
+    countrys,
+    search: filters.search,
+    selectRegion: filters.selectRegion,
+  });
 
   const { currentItems, pageCount, handlePageClick } = usePagination({
     items: filteredCountrys,
-    itemsPerPage: 10,
+    itemsPerPage: 9,
     currentPage,
     onPageChange: setCurrentPage,
   });
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <header className="m-5 flex justify-between items-center">
+    <div className="max-w-5xl mx-auto grid min-h-dvh grid-rows-[auto_1fr_auto] px-6 lg:px-0">
+      <header className="my-7 flex flex-col space-y-4 items-stretch sm:flex-row sm:justify-between sm:items-center sm:space-y-0">
         <InputSearch handleSearch={handleSearch} />
         <Dropdown toggleRegion={toggleRegion} />
       </header>
       <main>
-        <CardCountrys countrys={currentItems} />
+        {loading ? <CardsSkeleton /> : <CardCountrys countrys={currentItems} />}
       </main>
-      <footer>
+
+      <footer className="m-5 flex justify-center">
         <Pagination
           pageCount={pageCount}
           onPageChange={handlePageClick}
