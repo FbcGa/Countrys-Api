@@ -7,7 +7,7 @@ import { useCountrys } from "./hooks/useCountrys";
 import { usePagination } from "./hooks/usePagination";
 import { useFilteredCountrys } from "./hooks/useFilteredCountrys";
 import { FiltersContext } from "./context/filter";
-import { CardsSkeleton } from "./components/cardsSkeleton";
+import { CardsSkeleton } from "./components/skeletons";
 
 function App() {
   const { filters, setFilters } = useContext(FiltersContext);
