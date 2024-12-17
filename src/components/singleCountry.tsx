@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { type Countrys } from "../types/types";
 
-export function SingleCountry() {
+function SingleCountry() {
   const [singleCountry, setSingleCountry] = useState<Countrys | null>(null);
   const { uuid } = useParams();
 
@@ -13,7 +13,7 @@ export function SingleCountry() {
   }, [uuid]);
 
   return (
-    <div className="grid lg:grid-cols-2 gap-10 m-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+    <div className="grid lg:grid-cols-2 gap-10 m-6 p-6 bg-white dark:bg-gray-700 rounded-lg shadow-lg">
       {/* Bandera */}
       <section className="flex justify-center">
         <img
@@ -34,44 +34,44 @@ export function SingleCountry() {
 
         {/* Información general */}
         <div className="grid gap-4 sm:grid-cols-2 text-gray-700 dark:text-gray-300">
-          <p>
-            <span className="font-semibold">Native Name:</span>{" "}
-            {singleCountry?.name.official ?? "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Population:</span>{" "}
-            {singleCountry?.population.toLocaleString() ?? "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Region:</span>{" "}
-            {singleCountry?.region ?? "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Sub Region:</span>{" "}
-            {singleCountry?.subregion ?? "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Capital:</span>{" "}
-            {singleCountry?.capital?.join(", ") ?? "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Top Level Domain:</span>{" "}
-            {singleCountry?.tld?.join(", ") ?? "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Currencies:</span>{" "}
-            {singleCountry?.currencies
-              ? Object.values(singleCountry.currencies)
-                  .map((currency) => currency.name)
-                  .join(", ")
-              : "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Languages:</span>{" "}
-            {singleCountry?.languages
-              ? Object.values(singleCountry.languages).join(", ")
-              : "N/A"}
-          </p>
+          {[
+            {
+              label: "Native Name",
+              value: singleCountry?.name.official ?? "N/A",
+            },
+            {
+              label: "Population",
+              value: singleCountry?.population.toLocaleString() ?? "N/A",
+            },
+            { label: "Region", value: singleCountry?.region ?? "N/A" },
+            { label: "Sub Region", value: singleCountry?.subregion ?? "N/A" },
+            {
+              label: "Capital",
+              value: singleCountry?.capital?.join(", ") ?? "N/A",
+            },
+            {
+              label: "Top Level Domain",
+              value: singleCountry?.tld?.join(", ") ?? "N/A",
+            },
+            {
+              label: "Currencies",
+              value: singleCountry?.currencies
+                ? Object.values(singleCountry.currencies)
+                    .map((currency) => currency.name)
+                    .join(", ")
+                : "N/A",
+            },
+            {
+              label: "Languages",
+              value: singleCountry?.languages
+                ? Object.values(singleCountry.languages).join(", ")
+                : "N/A",
+            },
+          ].map(({ label, value }) => (
+            <p key={label} className="font-medium">
+              <span className="font-semibold">{label}:</span> {value}
+            </p>
+          ))}
         </div>
 
         {/* Países fronterizos */}
@@ -98,3 +98,4 @@ export function SingleCountry() {
     </div>
   );
 }
+export default SingleCountry;
