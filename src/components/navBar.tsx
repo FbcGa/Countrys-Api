@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Sun, Moon } from "lucide-react";
+import { Link } from "react-router";
 
 export function NavBar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -11,9 +12,12 @@ export function NavBar() {
 
   return (
     <nav className="flex justify-between items-center mx-auto p-5 bg-white dark:bg-black">
-      <h1 className="text-xl font-bold text-wrap dark:text-white sm:text-3xl">
+      <Link
+        className="text-xl font-bold text-wrap dark:text-white sm:text-3xl"
+        to="/"
+      >
         Where in the world?
-      </h1>
+      </Link>
       <button
         onClick={toggleTheme}
         className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full border border-gray-300 dark:border-gray-700 shadow transition-all duration-300 hover:shadow-md"
