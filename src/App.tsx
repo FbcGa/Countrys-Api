@@ -7,13 +7,11 @@ import { useCountrys } from "./hooks/useCountrys";
 import { usePagination } from "./hooks/usePagination";
 import { useFilteredCountrys } from "./hooks/useFilteredCountrys";
 import { FiltersContext } from "./context/filter";
-import { CardsSkeleton } from "./components/skeletons";
 
 function App() {
   const { filters, setFilters } = useContext(FiltersContext);
-  const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const countrys = useCountrys({ setLoading });
+  const countrys = useCountrys();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilters({ ...filters, search: e.target.value });
@@ -45,7 +43,7 @@ function App() {
         <Dropdown toggleRegion={toggleRegion} />
       </header>
       <main>
-        {loading ? <CardsSkeleton /> : <CardCountrys countrys={currentItems} />}
+        <CardCountrys countrys={currentItems} />
       </main>
 
       <footer className="m-5 flex justify-center">

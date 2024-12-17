@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import { type Countrys } from "../types/types";
 
-interface Props {
-  setLoading: (loading: boolean) => void;
-}
-
-export function useCountrys({ setLoading }: Props) {
+export function useCountrys() {
   const [countrys, setCountrys] = useState<Countrys[]>([]);
 
   useEffect(() => {
@@ -14,7 +10,6 @@ export function useCountrys({ setLoading }: Props) {
       .then((resp) => resp.json())
       .then((data) => {
         setCountrys(data);
-        setLoading(false); 
       })
       .catch((error) => {
         console.error("Error fetching countries:", error); 
