@@ -21,7 +21,7 @@ export function CardCountrys({ countrys }: Props) {
           <div className="relative">
             <img
               src={country.flags.svg}
-              alt={country.flags.alt}
+              alt={country.flags.alt ?? `Flag of ${country?.name.common}`}
               className="block w-full aspect-video h-auto object-cover"
             />
           </div>

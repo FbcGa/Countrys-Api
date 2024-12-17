@@ -13,6 +13,7 @@ export function Dropdown({ toggleRegion }: Props) {
   return (
     <div className="w-full max-w-full sm:max-w-xs">
       <select
+        aria-label="Choose a region"
         name={filters.selectRegion}
         onChange={toggleRegion}
         className="block w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-md text-base font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:text-white"
