@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { NavBar } from "./components/navBar";
 import App from "./App";
-import { SingleCountry } from "./pages/singleCountry";
+import { OneCountry } from "./pages/oneCountry";
 
 export function Layout() {
   return (
@@ -9,7 +9,7 @@ export function Layout() {
       <NavBar />
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/:uuid" element={<SingleCountry />} />
+        <Route path="/:uuid" element={<OneCountry />} />
       </Routes>
     </BrowserRouter>
   );

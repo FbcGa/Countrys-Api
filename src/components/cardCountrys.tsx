@@ -22,7 +22,7 @@ export function CardCountrys({ countrys }: Props) {
             <img
               src={country.flags.svg}
               alt={country.flags.alt}
-              className="block w-full aspect-[16/9] h-auto object-cover"
+              className="block w-full aspect-video h-auto object-cover"
             />
           </div>
           <div className="text-left p-4">
